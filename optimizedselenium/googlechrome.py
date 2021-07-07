@@ -36,7 +36,7 @@ class Chrome_Browser():
             self.options.add_argument(profile_path)
             self.options.add_argument(profile)
         self.driver_path = driver_path
-    def browser(self):
+    def browser_driver(self):
         driver = None
         # driver_path = '''f"{os.path.dirname(os.path.abspath(__file__))}\{'chromedriver.exe'}"'''
         try:
@@ -49,17 +49,17 @@ class Chrome_Browser():
                              f"\n- Chrome Driver version different: download new chrome driver assosicate with chrome version from https://chromedriver.chromium.org/downloads")
         return driver
 
-    def scroll_down(driver, amount):
+    def scroll_down(self,browser_driver, amount):
         i = 1
-        screen_height = driver.execute_script("return window.screen.height;")
+        screen_height = browser_driver.execute_script("return window.screen.height;")
         keep_scroll = True
         while keep_scroll:
 
-            driver.execute_script(
+            browser_driver.execute_script(
                 "window.scrollTo(0, {screen_height}*{i});".format(screen_height=screen_height, i=i))
             i += 1
             sleep(10)  # wait for the page to load
-            scroll_height = driver.execute_script("return document.body.scrollHeight;")
+            scroll_height = browser_driver.execute_script("return document.body.scrollHeight;")
             if amount == 0 and (screen_height * i) > scroll_height:  # unlimited scrolling untill reach end of page
                 keep_scroll = False
             elif amount != 0 and i >= amount:  # only scrol untill i reach amount of scroll
@@ -67,21 +67,21 @@ class Chrome_Browser():
 
         # TODO: developing type_text simulation
 
-    def type_text(driver, wait_time, frequence, list_error_to_ignored, xpath, text):
+    def type_text(self,browser_driver, wait_time, frequence, list_error_to_ignored, xpath, text):
         default_exception_to_ignore = [ElementNotSelectableException, ElementNotInteractableException,
                                        ElementNotVisibleException, NoSuchElementException]
-        element = WebDriverWait(driver, wait_time, poll_frequency=frequence,
+        element = WebDriverWait(browser_driver, wait_time, poll_frequency=frequence,
                                 ignored_exceptions=list_error_to_ignored) \
             .until(EC.presence_of_element_located((By.XPATH, xpath)))
 
-    def get_element_by_xpath(driver, wait_time, frequence, list_error_to_ignored, xpath):
+    def get_element_by_xpath(self,browser_driver, wait_time, frequence, list_error_to_ignored, xpath):
         getable_ele = None
         default_exception_to_ignore = [ElementNotSelectableException, ElementNotInteractableException,
                                        ElementNotVisibleException, NoSuchElementException]
         if list_error_to_ignored is None:
             list_error_to_ignored = default_exception_to_ignore
         try:
-            getable_ele = WebDriverWait(driver, wait_time, poll_frequency=frequence,
+            getable_ele = WebDriverWait(browser_driver, wait_time, poll_frequency=frequence,
                                         ignored_exceptions=list_error_to_ignored) \
                 .until(EC.presence_of_element_located((By.XPATH, xpath)))
         except:
@@ -89,14 +89,14 @@ class Chrome_Browser():
         # send post data to the input field
         return getable_ele
 
-    def get_elements_by_xpath(driver, wait_time, frequence, list_error_to_ignored, xpath):
+    def get_elements_by_xpath(self,browser_driver, wait_time, frequence, list_error_to_ignored, xpath):
         getable_ele = []
         default_exception_to_ignore = [ElementNotSelectableException, ElementNotInteractableException,
                                        ElementNotVisibleException, NoSuchElementException]
         if list_error_to_ignored is None:
             list_error_to_ignored = default_exception_to_ignore
         try:
-            getable_ele = WebDriverWait(driver, wait_time, poll_frequency=frequence,
+            getable_ele = WebDriverWait(browser_driver, wait_time, poll_frequency=frequence,
                                         ignored_exceptions=list_error_to_ignored) \
                 .until(EC.presence_of_element_located((By.XPATH, xpath)))
         except:
@@ -104,14 +104,14 @@ class Chrome_Browser():
         # send post data to the input field
         return getable_ele
 
-    def clickable_btn(driver, wait_time, frequence, list_error_to_ignored, xpath):
+    def clickable_btn(self,browser_driver, wait_time, frequence, list_error_to_ignored, xpath):
         clickable_btn = None
         default_exception_to_ignore = [ElementNotSelectableException, ElementNotInteractableException,
                                        ElementNotVisibleException, NoSuchElementException]
         if list_error_to_ignored is None:
             list_error_to_ignored = default_exception_to_ignore
         try:
-            clickable_btn = WebDriverWait(driver, wait_time, poll_frequency=frequence,
+            clickable_btn = WebDriverWait(browser_driver, wait_time, poll_frequency=frequence,
                                           ignored_exceptions=list_error_to_ignored) \
                 .until(EC.element_to_be_clickable((By.XPATH, xpath)))
         except:
@@ -119,13 +119,13 @@ class Chrome_Browser():
         # send post data to the input field
         return clickable_btn
 
-    def send_text(driver, wait_time, frequence, list_error_to_ignored, xpath, text):
+    def send_text(self,browser_driver, wait_time, frequence, list_error_to_ignored, xpath, text):
         default_exception_to_ignore = [ElementNotSelectableException, ElementNotInteractableException,
                                        ElementNotVisibleException, NoSuchElementException]
         if list_error_to_ignored is None:
             list_error_to_ignored = default_exception_to_ignore
         try:
-            WebDriverWait(driver, wait_time, poll_frequency=frequence, ignored_exceptions=list_error_to_ignored) \
+            WebDriverWait(browser_driver, wait_time, poll_frequency=frequence, ignored_exceptions=list_error_to_ignored) \
                 .until(EC.presence_of_element_located((By.XPATH, xpath))) \
                 .send_keys(text)
         except:
