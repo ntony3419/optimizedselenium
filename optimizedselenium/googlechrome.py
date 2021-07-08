@@ -5,6 +5,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import *
 from selenium.webdriver.common.by import By
 from time import sleep
+from shutil import which
 from selenium.webdriver.common.action_chains import ActionChains
 
 class Chrome_Browser():
@@ -16,13 +17,18 @@ class Chrome_Browser():
             self.options.add_argument("--headless")
         self.options.add_argument("--no-sandbox")
         self.options.add_argument("--disable-dev-shm-usage")
+        # if window_size is not None:
+        #     win_size = f"--window-size={window_size}"
+        #     self.options.add_argument(win_size)
+        # else:
+        #     self.options.add_argument("--window-size=1920,1080")
+        # if maximize is True:
+        #     self.options.add_argument("--start-maximized")
         if window_size is not None:
-            win_size = f"--window-size={window_size}"
-            self.options.add_argument(win_size)
-        else:
-            self.options.add_argument("--window-size=1920,1080")
+            self.window_size = window_size.split(",")
+        self.maximize = False
         if maximize is True:
-            self.options.add_argument("--start-maximized")
+            self.maximize = True
         self.options.add_argument("--disable-notifications")  # disable the allow or disallow notification
         ''' codeBlock: disable automatic control to bypass cloudflare by remove navigator.webdriver flag 
                    google chrome only'''
@@ -41,6 +47,10 @@ class Chrome_Browser():
         # driver_path = '''f"{os.path.dirname(os.path.abspath(__file__))}\{'chromedriver.exe'}"'''
         try:
             driver = webdriver.Chrome(executable_path=self.driver_path, options=self.options)
+            if self.maximize is True:
+                driver.maximize_window()
+            if self.winidow_size is not None and self.maximize is False:
+                driver.set_window_size(self.window_size[1],self.window_size[0])
         except:
             raise Exception(f"Unable to open browser with according profile."
                              f"Possible issue and solution: "
@@ -132,7 +142,3 @@ class Chrome_Browser():
             raise Exception(
                 "ISSUE: can't send text.\nSOLUTION: update xpath for text field.\nBetter to update xpath before press OK")
 
-#bro = Chrome_Browser("chromedriver_90.exe",r"C:\Users\quang nguyen\AppData\Local\Google\Chrome\User Data", "Profile 6", "800x600",False,False)
-bro = Chrome_Browser("chromedriver_90.exe",None,None, "860,400",False,False)
-browser=bro.browser()
-browser.get(r"https:\\google.com")
