@@ -26,8 +26,10 @@ class Chrome_Browser():
         #     self.options.add_argument("--window-size=1920,1080")
         # if maximize is True:
         #     self.options.add_argument("--start-maximized")
+        self.window_size = None
         if window_size is not None:
             self.window_size = window_size.split(",")
+
         self.maximize = False
         if maximize is True:
             self.maximize = True
