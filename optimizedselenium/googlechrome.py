@@ -1,3 +1,5 @@
+import traceback
+
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
@@ -51,12 +53,17 @@ class Chrome_Browser():
                 driver.maximize_window()
             if self.window_size is not None and self.maximize is False:
                 driver.set_window_size(self.window_size[1],self.window_size[0])
-        except:
-            raise Exception(f"Unable to open browser with according profile."
-                             f"Possible issue and solution: "
-                             f"\n- Profile is in used: Close all the google chrome tabs to release the profile"
-                             f"\n- Chrome Driver doesn't exist: download chrom driver associate with chrome version from https://chromedriver.chromium.org/downloads"
-                             f"\n- Chrome Driver version different: download new chrome driver assosicate with chrome version from https://chromedriver.chromium.org/downloads")
+
+        except (WebDriverException, FileNotFoundError):
+            print(f"Can't find the executable <.exe> of google chrome at <{self.driver_path}> !!\nMake sure the executable file and path to its executable in setting.conf match each other")
+            exit()
+
+            #print(traceback.format_exc())
+            # raise Exception(f"Unable to open browser with according profile."
+            #                  f"Possible issue and solution: "
+            #                  f"\n- Profile is in used: Close all the google chrome tabs to release the profile"
+            #                  f"\n- Chrome Driver doesn't exist: download chrom driver associate with chrome version from https://chromedriver.chromium.org/downloads"
+            #                  f"\n- Chrome Driver version different: download new chrome driver assosicate with chrome version from https://chromedriver.chromium.org/downloads")
         return driver
 
     def scroll_down(self,browser_driver, amount):
