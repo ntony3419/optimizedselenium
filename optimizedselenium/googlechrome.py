@@ -49,7 +49,7 @@ class Chrome_Browser():
             driver = webdriver.Chrome(executable_path=self.driver_path, options=self.options)
             if self.maximize is True:
                 driver.maximize_window()
-            if self.winidow_size is not None and self.maximize is False:
+            if self.window_size is not None and self.maximize is False:
                 driver.set_window_size(self.window_size[1],self.window_size[0])
         except:
             raise Exception(f"Unable to open browser with according profile."
