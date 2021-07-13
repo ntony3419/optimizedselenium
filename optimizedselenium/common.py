@@ -80,12 +80,16 @@ def get_elements_by_xpath(browser_driver, wait_time, frequence, list_error_to_ig
                                    ElementNotVisibleException, NoSuchElementException]
     if list_error_to_ignored is None:
         list_error_to_ignored = default_exception_to_ignore
-    try:
-        getable_ele = WebDriverWait(browser_driver, wait_time, poll_frequency=frequence,
-                                    ignored_exceptions=list_error_to_ignored) \
-            .until(EC.presence_of_element_located((By.XPATH, xpath)))
-    except:
-        pass
+
+    found = False
+    while (found is False and frequence <=wait_time):
+        try:
+            getable_ele = browser_driver.find_elements_by_xpath(xpath)
+            found = True
+        except:
+            pass
+        frequence = frequence+1
+
     # send post data to the input field
     return getable_ele
 

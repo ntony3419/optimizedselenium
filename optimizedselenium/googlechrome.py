@@ -48,7 +48,7 @@ class Chrome_Browser():
         self.driver_path = driver_path
     def browser_driver(self):
         driver = None
-        # driver_path = '''f"{os.path.dirname(os.path.abspath(__file__))}\{'chromedriver.exe'}"'''
+        # driver_path = '''f"{os.path.dirname(os.path.abspath(__file__))}\{'chromedriver_91.exe'}"'''
         try:
             driver = webdriver.Chrome(executable_path=self.driver_path, options=self.options)
             if self.maximize is True:
