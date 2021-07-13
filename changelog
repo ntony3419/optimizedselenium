@@ -4,3 +4,5 @@ Changelog ver 0.1.2:
 - move some function from googlechrome.py to common.py
 Changelog ver 0.1.3:
 - fix get_elements_by_xpath
+Changelog ver 0.1.4:
+- add undetected chrome

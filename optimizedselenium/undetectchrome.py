@@ -5,7 +5,7 @@ from selenium.common.exceptions import *
 class Undetect_Chrome():
     def __init__(self,driver_path, profile_path, profile_number, window_size, maximize,headless):
         self.options = uc.ChromeOptions()
-        self.options.add_argument('--no-first-run --no-service-autorun --password-store=basic')
+
         # default options
         if headless is True:
             self.options.add_argument("--headless")
@@ -35,13 +35,14 @@ class Undetect_Chrome():
 
         # # chrome_options.add_experimental_option("detach", True)
         if profile_path is not None and profile_number is not None:
-            combine_path = r"--user-data-dir={}\{}".format(profile_path, profile_number)
-            self.options.add_argument(combine_path)
-            # profile_path = r"user-data-dir={}".format(profile_path)
-            # profile = r"profile-directory={}".format(profile_number)
-
-            # self.options.add_argument(profile_path)
-            # self.options.add_argument(profile)
+            combine_path = r"{}\{}".format(profile_path, profile_number)
+            # self.options.add_argument(combine_path)
+            profile_path = r"--user-data-dir={}".format(profile_path)
+            profile = r"--profile-directory={}".format(profile_number)
+            self.options.add_argument(profile_path)
+            self.options.add_argument(profile)
+            #self.options.user_data_dir=combine_path
+        self.options.add_argument('--no-first-run --no-service-autorun --password-store=basic')
         self.driver_path = driver_path
     def browser_driver(self):
         driver = None
@@ -56,7 +57,7 @@ class Undetect_Chrome():
 
         except (WebDriverException, FileNotFoundError):
             print(
-                f"Can't find the executable <.exe> of google chrome at <{self.driver_path}> !!\nMake sure the executable file and path to its executable in setting.conf match each other")
+                f"Can't find the executable <.exe> of google chrome at <{self.driver_path}> !!\nMake sure the executable file and path to its executable in setting.conf match each other!!\nAttemp to use full path to the executable!!")
             exit()
 
             # print(traceback.format_exc())

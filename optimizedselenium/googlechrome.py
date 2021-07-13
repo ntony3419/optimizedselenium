@@ -57,7 +57,7 @@ class Chrome_Browser():
                 driver.set_window_size(self.window_size[1],self.window_size[0])
 
         except (WebDriverException, FileNotFoundError):
-            print(f"Can't find the executable <.exe> of google chrome at <{self.driver_path}> !!\nMake sure the executable file and path to its executable in setting.conf match each other")
+            print(f"Can't find the executable <.exe> of google chrome at <{self.driver_path}> !!\nMake sure the executable file and path to its executable in setting.conf match each other\nAttemp to use full path to the executable!!")
             exit()
 
             #print(traceback.format_exc())
