@@ -1,12 +1,15 @@
 How to Build and install the package
 1. download the package
-2. extract the package
-3. change directory to the package where the setup.py located
-4. Build the package : 
+   <pre>git clone https://github.com/ntony3419/optimizedselenium.git --depth 1 --branch=master
+</pre>
+
+2. change directory to the package where the setup.py located
+   <pre>cd path/to/optimizedselenium</pre>
+3. Build the package : 
    <pre>python setup.py bdist_wheel</pre>
    
 Copy the path of wheelfile.whl in folder "dist"
-5. install the package : 
+4. install the package : 
    <pre>pip install /path/to/wheelfile.whl</pre>
 
 How to use the package:
