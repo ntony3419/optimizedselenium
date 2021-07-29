@@ -2,7 +2,7 @@ import random
 import time
 from optimizedselenium.undetectchrome import Undetect_Chrome
 from optimizedselenium import common as br_common_act
-uc = Undetect_Chrome(r"C:\Users\quang nguyen\PycharmProjects\python\optimizedselenium\optimizedselenium\chromedriver_91.exe", None, None, None, False, False)
+uc = Undetect_Chrome(r"C:\Users\quang nguyen\PycharmProjects\python\optimizedselenium\chromedriver.exe", None, None, None, False, False)
 driver = uc.browser_driver()
 with driver: #open the url once to pass the cloudflare test
     driver.get('https://freecoursesite.com')
