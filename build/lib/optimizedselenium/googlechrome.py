@@ -15,8 +15,18 @@ class Chrome_Browser():
         self.options = Options()
 
         # default options
+        self.window_size = None
+        self.maximize = False
+        self.headless = False
         if headless is True:
             self.options.add_argument("--headless")
+            self.headless = True
+        else: #maximize and windowsize depend on headless status
+            if maximize is True:
+                self.maximize = True
+            if window_size is not None:
+                self.window_size = window_size.split(",")
+
         self.options.add_argument("--no-sandbox")
         self.options.add_argument("--disable-dev-shm-usage")
         # if window_size is not None:
@@ -26,13 +36,6 @@ class Chrome_Browser():
         #     self.options.add_argument("--window-size=1920,1080")
         # if maximize is True:
         #     self.options.add_argument("--start-maximized")
-        self.window_size = None
-        if window_size is not None:
-            self.window_size = window_size.split(",")
-
-        self.maximize = False
-        if maximize is True:
-            self.maximize = True
         self.options.add_argument("--disable-notifications")  # disable the allow or disallow notification
         ''' codeBlock: disable automatic control to bypass cloudflare by remove navigator.webdriver flag 
                    google chrome only'''
@@ -51,9 +54,9 @@ class Chrome_Browser():
         # driver_path = '''f"{os.path.dirname(os.path.abspath(__file__))}\{'chromedriver_91.exe'}"'''
         try:
             driver = webdriver.Chrome(executable_path=self.driver_path, options=self.options)
-            if self.maximize is True:
+            if self.headless is False and self.maximize is True:
                 driver.maximize_window()
-            if self.window_size is not None and self.maximize is False:
+            if self.headless is False and self.window_size is not None and self.maximize is False:
                 driver.set_window_size(self.window_size[1],self.window_size[0])
 
         except (WebDriverException, FileNotFoundError):

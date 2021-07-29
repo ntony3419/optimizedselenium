@@ -1,8 +1,13 @@
-Changelog ver 0.1.1:
-- fix google chrome function missing window size attribute
-Changelog ver 0.1.2:
-- move some function from googlechrome.py to common.py
-Changelog ver 0.1.3:
-- fix get_elements_by_xpath
+Changelog ver 0.1.5:
+- fix issue with headless status and maximize status
 Changelog ver 0.1.4:
 - add undetected chrome
+Changelog ver 0.1.3:
+- fix get_elements_by_xpath
+Changelog ver 0.1.2:
+- move some function from googlechrome.py to common.py
+Changelog ver 0.1.1:
+- fix google chrome function missing window size attribute
+
+
+

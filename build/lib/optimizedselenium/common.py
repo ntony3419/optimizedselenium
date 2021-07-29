@@ -33,7 +33,9 @@ def move_to_element(driver, wait_time, frequence, list_error_to_ignored,xpath):
         action.move_to_element(element).perform()
     except:
         pass
-
+'''scroll down the page certain amount input. 
+    if amount = 0 then perform unlimited scroll untill reach end of page
+'''
 def scroll_down(browser_driver, amount):
     i = 1
     screen_height = browser_driver.execute_script("return window.screen.height;")

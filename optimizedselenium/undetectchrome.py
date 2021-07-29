@@ -7,33 +7,20 @@ class Undetect_Chrome():
         self.options = uc.ChromeOptions()
 
         # default options
+        self.window_size = None
+        self.maximize = False
+        self.headless = False
         if headless is True:
             self.options.add_argument("--headless")
+            self.headless = True
+        else:  # maximize and windowsize depend on headless status
+            if maximize is True:
+                self.maximize = True
+            if window_size is not None:
+                self.window_size = window_size.split(",")
         self.options.add_argument("--no-sandbox")
         self.options.add_argument("--disable-dev-shm-usage")
-        # # if window_size is not None:
-        # #     win_size = f"--window-size={window_size}"
-        # #     self.options.add_argument(win_size)
-        # # else:
-        # #     self.options.add_argument("--window-size=1920,1080")
-        # # if maximize is True:
-        # #     self.options.add_argument("--start-maximized")
 
-        if window_size is not None:
-            self.options.add_argument(f"--window-size={window_size}")
-        #
-        self.maximize = False
-        if maximize is True:
-            self.options.add_argument("--start-maximized")
-            #self.maximize = True
-        # self.options.add_argument("--disable-notifications")  # disable the allow or disallow notification
-        # ''' codeBlock: disable automatic control to bypass cloudflare by remove navigator.webdriver flag
-        #            google chrome only'''
-        # self.options.add_experimental_option("excludeSwitches", ["enable-automation"])
-        # self.options.add_experimental_option("useAutomationExtension", False)
-        # self.options.add_argument("--disable-blink-features=AutomationControlled")
-
-        # # chrome_options.add_experimental_option("detach", True)
         if profile_path is not None and profile_number is not None:
             combine_path = r"{}\{}".format(profile_path, profile_number)
             # self.options.add_argument(combine_path)
