@@ -18,8 +18,8 @@ class Undetect_Chrome():
                 self.maximize = True
             if window_size is not None:
                 self.window_size = window_size.split(",")
-        self.options.add_argument("--no-sandbox")
-        self.options.add_argument("--disable-dev-shm-usage")
+        #self.options.add_argument("--no-sandbox")
+        #self.options.add_argument("--disable-dev-shm-usage")
 
         if profile_path is not None and profile_number is not None:
             combine_path = r"{}\{}".format(profile_path, profile_number)
