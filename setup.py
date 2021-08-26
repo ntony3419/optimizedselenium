@@ -3,7 +3,7 @@ from setuptools import find_packages, setup
 setup(
     name='optimizedselenium',
     packages=find_packages(),
-    version='0.1.4',
+    version='0.1.6',
     description='generate selenium driver and common action based on selenium',
     author='ntony',
     license='GPL',

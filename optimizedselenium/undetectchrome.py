@@ -2,41 +2,42 @@ import undetected_chromedriver.v2 as uc
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import *
 
-class Undetect_Chrome():
-    def __init__(self,driver_path, profile_path, profile_number, window_size, maximize,headless):
-        self.options = uc.ChromeOptions()
+class Undetect_Chrome(uc.Chrome):
+    def __init__(self):
+        super.__init__()
 
-        # default options
-        self.window_size = None
-        self.maximize = False
-        self.headless = False
-        if headless is True:
-            self.options.add_argument("--headless")
-            self.headless = True
-        else:  # maximize and windowsize depend on headless status
-            if maximize is True:
-                self.maximize = True
-            if window_size is not None:
-                self.window_size = window_size.split(",")
-        #self.options.add_argument("--no-sandbox")
-        #self.options.add_argument("--disable-dev-shm-usage")
 
-        if profile_path is not None and profile_number is not None:
-            combine_path = r"{}\{}".format(profile_path, profile_number)
-            # self.options.add_argument(combine_path)
-            profile_path = r"--user-data-dir={}".format(profile_path)
-            profile = r"--profile-directory={}".format(profile_number)
-            self.options.add_argument(profile_path)
-            self.options.add_argument(profile)
-            #self.options.user_data_dir=combine_path
-        self.options.add_argument('--no-first-run --no-service-autorun --password-store=basic')
-        self.driver_path = driver_path
+        # self.options = uc.ChromeOptions()
+        #
+        # # default options
+        # self.window_size = None
+        # self.maximize = False
+        # self.headless = False
+        # if headless is True:
+        #     self.options.add_argument("--headless")
+        #     self.headless = True
+        # else:  # maximize and windowsize depend on headless status
+        #     if maximize is True:
+        #         self.maximize = True
+        #     if window_size is not None:
+        #         self.window_size = window_size.split(",")
+        # #self.options.add_argument("--no-sandbox")
+        # #self.options.add_argument("--disable-dev-shm-usage")
+        #
+        # if profile_path is not None and profile_number is not None:
+        #     combine_path = r"{}\{}".format(profile_path, profile_number)
+        #     # self.options.add_argument(combine_path)
+        #     profile_path = r"--user-data-dir={}".format(profile_path)
+        #     profile = r"--profile-directory={}".format(profile_number)
+        #     self.options.add_argument(profile_path)
+        #     self.options.add_argument(profile)
+        #     #self.options.user_data_dir=combine_path
+        # self.options.add_argument('--no-first-run --no-service-autorun --password-store=basic')
+        # self.driver_path = driver_path
     def browser_driver(self):
         driver = None
-        # driver_path = '''f"{os.path.dirname(os.path.abspath(__file__))}\{'chromedriver_91.exe'}"'''
         try:
             driver=uc.Chrome( executable_path=self.driver_path,options=self.options)
-            #driver = webdriver.Chrome(executable_path=self.driver_path, options=self.options)
             # if self.maximize is True:
             #     driver.maximize_window()
             # if self.window_size is not None and self.maximize is False:
