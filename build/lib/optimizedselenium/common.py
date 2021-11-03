@@ -86,6 +86,7 @@ def get_elements_by_xpath(browser_driver, wait_time, frequence, list_error_to_ig
     found = False
     while (found is False and frequence <=wait_time):
         try:
+
             getable_ele = browser_driver.find_elements_by_xpath(xpath)
             found = True
         except:
@@ -105,6 +106,7 @@ def clickable_btn(browser_driver, wait_time, frequence, list_error_to_ignored, x
         clickable_btn = WebDriverWait(browser_driver, wait_time, poll_frequency=frequence,
                                       ignored_exceptions=list_error_to_ignored) \
             .until(EC.element_to_be_clickable((By.XPATH, xpath)))
+
     except:
         pass
     # send post data to the input field
@@ -122,4 +124,6 @@ def send_text(browser_driver, wait_time, frequence, list_error_to_ignored, xpath
     except:
         raise Exception(
             "ISSUE: can't send text.\nSOLUTION: update xpath for text field.\nBetter to update xpath before press OK")
-
+#perform click action using javascript
+def java_script_click(browser_driver, button):
+    browser_driver.execute_script("arguments[0].click();", button)

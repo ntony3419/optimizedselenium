@@ -11,13 +11,11 @@ from shutil import which
 from selenium.webdriver.common.action_chains import ActionChains
 
 class Chrome_Browser():
-    def __init__(self,driver_path, profile_path, profile_number, window_size, maximize,headless):
+    def __init__(self,driver_path, profile_path=None, profile_number=None, window_size=None, maximize=False,headless=False):
         self.options = Options()
 
         # default options
         self.window_size = None
-        self.maximize = False
-        self.headless = False
         if headless is True:
             self.options.add_argument("--headless")
             self.headless = True
@@ -43,7 +41,7 @@ class Chrome_Browser():
         self.options.add_experimental_option("useAutomationExtension", False)
         self.options.add_argument("--disable-blink-features=AutomationControlled")
         # chrome_options.add_experimental_option("detach", True)
-        if profile_path is not None:
+        if profile_path is not None and profile_number is not None:
             profile_path = r"user-data-dir={}".format(profile_path)
             profile = r"profile-directory={}".format(profile_number)
             self.options.add_argument(profile_path)
