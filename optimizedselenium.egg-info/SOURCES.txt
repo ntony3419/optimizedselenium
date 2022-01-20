@@ -1,0 +1,13 @@
+README.md
+setup.py
+optimizedselenium/__init__.py
+optimizedselenium/common.py
+optimizedselenium/googlechrome.py
+optimizedselenium/undetectchrome.py
+optimizedselenium.egg-info/PKG-INFO
+optimizedselenium.egg-info/SOURCES.txt
+optimizedselenium.egg-info/dependency_links.txt
+optimizedselenium.egg-info/top_level.txt
+test/__init__.py
+test/googlechrome_test.py
+test/undetectchrome_test.py

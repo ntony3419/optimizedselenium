@@ -11,61 +11,42 @@ from shutil import which
 from selenium.webdriver.common.action_chains import ActionChains
 
 class Chrome_Browser():
-    def __init__(self,driver_path, profile_path=None, profile_number=None, window_size=None, maximize=False,headless=False):
-        self.options = Options()
-
+    
+    def __init__(self,driver_path, **kwargs):
+        #profile_path=None, profile_number=None, window_size=None, maximize=False,headless=False):
+        options = Options()  
         # default options
-        self.window_size = None
-        if headless is True:
-            self.options.add_argument("--headless")
-            self.headless = True
-        else: #maximize and windowsize depend on headless status
-            if maximize is True:
-                self.maximize = True
-            if window_size is not None:
-                self.window_size = window_size.split(",")
-
-        self.options.add_argument("--no-sandbox")
-        self.options.add_argument("--disable-dev-shm-usage")
-        # if window_size is not None:
-        #     win_size = f"--window-size={window_size}"
-        #     self.options.add_argument(win_size)
-        # else:
-        #     self.options.add_argument("--window-size=1920,1080")
-        # if maximize is True:
-        #     self.options.add_argument("--start-maximized")
-        self.options.add_argument("--disable-notifications")  # disable the allow or disallow notification
+       
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+    
+        options.add_argument("--disable-notifications")  # disable the allow or disallow notification
         ''' codeBlock: disable automatic control to bypass cloudflare by remove navigator.webdriver flag 
                    google chrome only'''
-        self.options.add_experimental_option("excludeSwitches", ["enable-automation"])
-        self.options.add_experimental_option("useAutomationExtension", False)
-        self.options.add_argument("--disable-blink-features=AutomationControlled")
+        options.add_experimental_option("excludeSwitches", ["enable-automation"])
+        options.add_experimental_option("useAutomationExtension", False)
+        options.add_argument("--disable-blink-features=AutomationControlled")
         # chrome_options.add_experimental_option("detach", True)
-        if profile_path is not None and profile_number is not None:
-            profile_path = r"user-data-dir={}".format(profile_path)
-            profile = r"profile-directory={}".format(profile_number)
-            self.options.add_argument(profile_path)
-            self.options.add_argument(profile)
-        self.driver_path = driver_path
-    def browser_driver(self):
-        driver = None
-        # driver_path = '''f"{os.path.dirname(os.path.abspath(__file__))}\{'chromedriver_91.exe'}"'''
+        if "profile_path" in kwargs and "profile_number" in kwargs:
+            options.add_argument(r"user-data-dir={}".format(kwargs["profile_path"]))
+            options.add_argument(r"profile-directory={}".format( kwargs["profile_number"]))        
+        #instance driver browser        
         try:
-            driver = webdriver.Chrome(executable_path=self.driver_path, options=self.options)
-            if self.headless is False and self.maximize is True:
-                driver.maximize_window()
-            if self.headless is False and self.window_size is not None and self.maximize is False:
-                driver.set_window_size(self.window_size[1],self.window_size[0])
+            window_size = None        
+            if "headless" in kwargs:
+                options.add_argument("--headless")
+            else: 
+                if "window_size" in kwargs:
+                    window_size = kwargs["window_size"].split(",")
 
-        except (WebDriverException, FileNotFoundError):
-            print(f"Can't find the executable <.exe> of google chrome at <{self.driver_path}> !!\nMake sure the executable file and path to its executable in setting.conf match each other\nAttemp to use full path to the executable!!")
+            self.driver_browser = webdriver.Chrome(executable_path=driver_path, options=options)
+            
+            if  "maximize" in kwargs :
+                    self.driver_browser.maximize_window()
+            else:
+                    if window_size is not None:
+                        self.driver_browser.set_window_size(window_size[1],window_size[0])
+
+        except :
+            print("Issue opening google chrome {}".format(traceback.format_exc()))
             exit()
-
-            #print(traceback.format_exc())
-            # raise Exception(f"Unable to open browser with according profile."
-            #                  f"Possible issue and solution: "
-            #                  f"\n- Profile is in used: Close all the google chrome tabs to release the profile"
-            #                  f"\n- Chrome Driver doesn't exist: download chrom driver associate with chrome version from https://chromedriver.chromium.org/downloads"
-            #                  f"\n- Chrome Driver version different: download new chrome driver assosicate with chrome version from https://chromedriver.chromium.org/downloads")
-        return driver
-
